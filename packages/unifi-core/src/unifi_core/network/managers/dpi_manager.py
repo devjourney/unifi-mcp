@@ -67,7 +67,7 @@ class DpiManager:
                 async with session.get(
                     url,
                     params=params,
-                    ssl=False,
+                    ssl=self._connection.verify_ssl,
                     timeout=aiohttp.ClientTimeout(total=10),
                 ) as resp:
                     if resp.status == 200:

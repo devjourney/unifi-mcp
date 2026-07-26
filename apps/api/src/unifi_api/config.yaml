@@ -1,5 +1,6 @@
 http:
-  host: 0.0.0.0
+  # Localhost by default; set UNIFI_API_HTTP_HOST=0.0.0.0 to expose beyond this machine.
+  host: 127.0.0.1
   port: 8080
   cors_origins: []
 

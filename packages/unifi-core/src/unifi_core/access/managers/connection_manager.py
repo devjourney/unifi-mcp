@@ -58,7 +58,7 @@ class AccessConnectionManager:
         username: str,
         password: str,
         port: int = 443,
-        verify_ssl: bool = False,
+        verify_ssl: bool = True,
         api_key: str | None = None,
         api_port: int = 12445,
     ) -> None:

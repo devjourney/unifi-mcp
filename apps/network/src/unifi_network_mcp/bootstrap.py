@@ -53,7 +53,7 @@ class UniFiSettings:
     password: str
     port: int = 443
     site: str = "default"
-    verify_ssl: bool = False
+    verify_ssl: bool = True
     controller_type: str = "auto"
     api_key: str = ""  # Optional API key for official API access
 
@@ -66,7 +66,7 @@ class UniFiSettings:
             password=str(cfg.password),
             port=int(cfg.get("port", 443)),
             site=str(cfg.get("site", "default")),
-            verify_ssl=bool(cfg.get("verify_ssl", False)),
+            verify_ssl=bool(cfg.get("verify_ssl", True)),
             controller_type=str(cfg.get("controller_type", "auto")),
             api_key=str(cfg.get("api_key", "")),
         )

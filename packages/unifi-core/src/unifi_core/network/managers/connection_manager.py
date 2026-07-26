@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import re
+import ssl as ssl_module
 import time
 import time as _time
 from typing import Any, Dict, Optional
@@ -46,7 +47,8 @@ async def detect_unifi_os_pre_login(
         # Probe 1: GET base URL without following redirects
         # UniFi OS typically returns 200 OK with the web UI
         # Standalone controllers often redirect to /manage or return different status
-        async with session.get(base_url, timeout=client_timeout, ssl=False, allow_redirects=False) as response:
+        # SSL policy comes from the session's connector, which honors verify_ssl.
+        async with session.get(base_url, timeout=client_timeout, allow_redirects=False) as response:
             logger.debug("Pre-login probe %s: status=%s", base_url, response.status)
 
             if response.status == 200:
@@ -141,7 +143,8 @@ async def _probe_endpoint(
     try:
         logger.debug("Probing %s endpoint: %s", endpoint_name, url)
 
-        async with session.get(url, timeout=timeout, ssl=False) as response:
+        # SSL policy comes from the session's connector, which honors verify_ssl.
+        async with session.get(url, timeout=timeout) as response:
             if response.status == 200:
                 try:
                     data = await response.json()
@@ -220,7 +223,7 @@ class ConnectionManager:
         password: str,
         port: int = 443,
         site: str = "default",
-        verify_ssl: bool = False,
+        verify_ssl: bool = True,
         cache_timeout: int = 30,
         max_retries: int = 3,
         retry_delay: int = 5,
@@ -296,7 +299,7 @@ class ConnectionManager:
                         await self._aiohttp_session.close()
                         self._aiohttp_session = None
 
-                    connector = aiohttp.TCPConnector(ssl=False if not self.verify_ssl else None)
+                    connector = aiohttp.TCPConnector(ssl=self.verify_ssl)
                     self._aiohttp_session = aiohttp.ClientSession(
                         connector=connector, cookie_jar=aiohttp.CookieJar(unsafe=True)
                     )
@@ -349,7 +352,8 @@ class ConnectionManager:
                         password=self.password,
                         port=self.port,
                         site=self.site,
-                        ssl_context=False if not self.verify_ssl else None,
+                        # aiounifi accepts SSLContext | Literal[False]
+                        ssl_context=ssl_module.create_default_context() if self.verify_ssl else False,
                     )
 
                     self.controller = Controller(config=config)

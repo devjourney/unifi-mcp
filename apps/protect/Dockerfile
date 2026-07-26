@@ -27,6 +27,10 @@ RUN uv sync --frozen --no-dev --package unifi-protect-mcp
 # Use the venv Python directly
 ENV PATH="/app/.venv/bin:$PATH"
 
+# Run as non-root
+RUN useradd -m -u 1000 unifi-mcp
+USER unifi-mcp
+
 # Expose the MCP server port (for optional HTTP transport: streamable-http or SSE)
 EXPOSE 3001
 
