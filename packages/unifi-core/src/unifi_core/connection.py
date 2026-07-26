@@ -9,7 +9,7 @@ import aiohttp  # noqa: F401
 class ConnectionConfig:
     host: str
     port: int = 443
-    verify_ssl: bool = False
+    verify_ssl: bool = True
     timeout: float = 30.0
 
     @property
@@ -18,6 +18,4 @@ class ConnectionConfig:
 
     @property
     def ssl_context(self):
-        if self.verify_ssl:
-            return None
-        return False
+        return self.verify_ssl

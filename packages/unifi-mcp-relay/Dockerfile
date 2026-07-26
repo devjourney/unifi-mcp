@@ -25,4 +25,8 @@ RUN uv sync --frozen --no-dev --package unifi-mcp-relay
 
 ENV PATH="/app/.venv/bin:$PATH"
 
+# Run as non-root
+RUN useradd -m -u 1000 unifi-mcp
+USER unifi-mcp
+
 CMD ["unifi-mcp-relay"]

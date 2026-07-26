@@ -125,7 +125,7 @@ class FirewallManager:
                 url,
                 params=params,
                 json=data,
-                ssl=False,
+                ssl=self._connection.verify_ssl,
                 timeout=timeout,
             ) as resp:
                 try:

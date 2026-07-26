@@ -21,7 +21,7 @@ from unifi_core.policy import should_redact_sensitive_fields
 
 @dataclass(frozen=True)
 class HttpConfig:
-    host: str = "0.0.0.0"
+    host: str = "127.0.0.1"
     port: int = 8080
     cors_origins: tuple[str, ...] = ()
 
@@ -74,7 +74,7 @@ def load_config(yaml_path: Path) -> ApiConfig:
 
     return ApiConfig(
         http=HttpConfig(
-            host=str(container.get("http", {}).get("host", "0.0.0.0")),
+            host=str(container.get("http", {}).get("host", "127.0.0.1")),
             port=int(container.get("http", {}).get("port", 8080)),
             cors_origins=tuple(container.get("http", {}).get("cors_origins", []) or []),
         ),

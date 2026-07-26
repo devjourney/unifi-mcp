@@ -4,7 +4,7 @@ unifi:
   password: ${oc.env:UNIFI_ACCESS_PASSWORD,""}
   port: ${oc.env:UNIFI_ACCESS_PORT,443}
   site: ${oc.env:UNIFI_ACCESS_SITE,default}
-  verify_ssl: ${oc.env:UNIFI_ACCESS_VERIFY_SSL,false}
+  verify_ssl: ${oc.env:UNIFI_ACCESS_VERIFY_SSL,true}
   api_key: ${oc.env:UNIFI_ACCESS_API_KEY,""}
 
 server:

@@ -50,7 +50,7 @@ class ProtectConnectionManager:
         password: str,
         port: int = 443,
         site: str = "default",
-        verify_ssl: bool = False,
+        verify_ssl: bool = True,
         api_key: str | None = None,
     ):
         self.host = host

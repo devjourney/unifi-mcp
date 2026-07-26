@@ -54,7 +54,7 @@ class AccessSettings:
     password: str
     port: int = 443
     site: str = "default"
-    verify_ssl: bool = False
+    verify_ssl: bool = True
     api_key: str = ""  # Optional API key for official API access
 
     @classmethod
@@ -66,7 +66,7 @@ class AccessSettings:
             password=str(cfg.password),
             port=int(cfg.get("port", 443)),
             site=str(cfg.get("site", "default")),
-            verify_ssl=bool(cfg.get("verify_ssl", False)),
+            verify_ssl=bool(cfg.get("verify_ssl", True)),
             api_key=str(cfg.get("api_key", "")),
         )
 
